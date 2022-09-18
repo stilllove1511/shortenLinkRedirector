@@ -30,6 +30,27 @@ configCors(app)
 
 initAppRoutes(app)
 
+// const { OAuth2Client } = require("google-auth-library")
+// const client = new OAuth2Client(
+//     "434535066606-gib6cr8c72avd4jt6s3h04ai21ra0leh.apps.googleusercontent.com"
+// )
+// const googleAuth = async (token) => {
+//     try {
+//         const tiket = await client.verifyIdToken({
+//             idToken: token
+//         })
+//         const payload = tiket.getPayload()
+//         console.log(payload)
+//     } catch (error) {
+//         console.log("error")
+//     }
+// }
+// app.post("/gglogin", (req, res) => {
+//     // console.log(req.body.token)
+//     googleAuth(req.body.token)
+//     res.send("1")
+// })
+
 app.use((req, res) => {
     return res.send("404 not found")
 })
