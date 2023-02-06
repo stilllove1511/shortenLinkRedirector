@@ -1,25 +1,21 @@
-import db from "../models/index";
+import mongo from '../mongo/conn';
 
 const findOriginLink = async (slug) => {
-    try {
-        let link = await db.Link.findOne({
-            where: {
-                shortenLink: slug,
-            },
-            attributes: ["originLink"],
-        });
-        console.log(link);
-        if (link) {
-            return link.originLink;
-        }
-    } catch (error) {
-        console.log(error);
-        return {
-            EM: "some thing wrong in service ...",
-            EC: 1,
-            DT: [],
-        };
+  try {
+    let link = await mongo.Link.findOne({
+      alias: slug,
+    });
+    let now = new Date();
+    console.log(link.expiration);
+    if (link.expiration > now) {
+      return link.originalLink;
+    } else {
+      return null;
     }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
 
 export default { findOriginLink };
