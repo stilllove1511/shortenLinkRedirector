@@ -6,7 +6,6 @@ const findOriginLink = async (slug) => {
       alias: slug,
     });
     let now = new Date();
-    console.log(link.expiration);
     if (link.expiration > now) {
       return link.originalLink;
     } else {
