@@ -1,10 +1,15 @@
 import express from "express";
 import { header } from "express/lib/response";
 import shortenLinkController from "../controllers/shortenLinkController";
-import cache from "../middlewares/cache.middleware";
+import { checkCacheLink, cacheLink } from "../middlewares/cache.middleware";
 
 const shortenLinkRouter = express.Router();
 
-shortenLinkRouter.get("/:slug", cache, shortenLinkController.redirect);
+shortenLinkRouter.get(
+    "/:slug",
+    checkCacheLink,
+    shortenLinkController.redirect,
+    cacheLink
+);
 
 export default shortenLinkRouter;

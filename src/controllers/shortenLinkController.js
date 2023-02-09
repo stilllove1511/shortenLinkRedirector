@@ -1,11 +1,13 @@
 import shortenLinkService from "../services/shortenLinkService";
 
-const redirect = async (req, res) => {
+const redirect = async (req, res, next) => {
     try {
         let alias = req.params.slug;
         let originalLink = await shortenLinkService.findOriginalLink(alias); //find link
         if (originalLink) {
-            return res.redirect(originalLink); //redirect
+            res.redirect(originalLink); //redirect
+            req.originalLink = originalLink;
+            next(); //to cach middleware
         } else {
             return res.send("404 not found"); //if not find link, send 404
         }

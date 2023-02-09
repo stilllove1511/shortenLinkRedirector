@@ -1,6 +1,6 @@
 import redis from "../redis/index.js";
 
-export default async function cache(req, res, next) {
+export const checkCacheLink = async (req, res, next) => {
     try {
         let originalLink = await redis.get(req.params.slug);
         if (originalLink !== null) {
@@ -12,4 +12,8 @@ export default async function cache(req, res, next) {
         console.log(error);
         next();
     }
-}
+};
+
+export const cacheLink = async (req, res) => {
+    redis.set(req.params.slug, req.originalLink);
+};
