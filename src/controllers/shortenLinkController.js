@@ -5,9 +5,10 @@ const redirect = async (req, res, next) => {
         let alias = req.params.slug;
         let originalLink = await shortenLinkService.findOriginalLink(alias); //find link
         if (originalLink) {
-            res.redirect(originalLink); //redirect
-            req.originalLink = originalLink;
-            next(); //to cach middleware
+            res.redirect(originalLink.originalLink); //redirect
+            req.originalLink = originalLink.originalLink;
+            req.expiration = originalLink.expiration;
+            next(); //to cache middleware
         } else {
             return res.send("404 not found"); //if not find link, send 404
         }

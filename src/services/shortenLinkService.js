@@ -6,13 +6,15 @@ const findOriginalLink = async (slug) => {
             alias: slug,
         });
         let now = new Date();
-        if (link.expiration > now) {
-            return link.originalLink;
+        //check if link have not been expired
+        if (now < link.expiration) {
+            return link;
         } else {
             return null;
         }
     } catch (error) {
-        console.log(error);
+        if (error.message !== `Cannot read property 'expiration' of null`)
+            console.log(error);
         return null;
     }
 };

@@ -14,8 +14,12 @@ app.use((req, res) => {
     return res.send("404 not found");
 });
 
-(async () => {
-    redis.connect();
+(async function () {
+    try {
+        await redis.connect();
+    } catch (error) {
+        console.log(error);
+    }
 })();
 
 app.listen(PORT, () => {

@@ -4,7 +4,15 @@ export const checkCacheLink = async (req, res, next) => {
     try {
         let originalLink = await redis.get(req.params.slug);
         if (originalLink !== null) {
-            return res.redirect(originalLink);
+            originalLink = JSON.parse(originalLink); // parse link data
+            let now = new Date();
+            let expiration = new Date(originalLink.expiration);
+            //check expired
+            if (now < expiration) {
+                return res.redirect(originalLink.originalLink);
+            } else {
+                res.send("404");
+            }
         } else {
             next();
         }
@@ -14,6 +22,12 @@ export const checkCacheLink = async (req, res, next) => {
     }
 };
 
-export const cacheLink = async (req, res) => {
-    redis.set(req.params.slug, req.originalLink);
+export const cacheLink = (req, res) => {
+    redis.set(
+        req.params.slug,
+        JSON.stringify({
+            originalLink: req.originalLink,
+            expiration: req.expiration.toString(),
+        })
+    );
 };

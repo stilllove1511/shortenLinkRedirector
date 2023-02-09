@@ -1,7 +1,8 @@
-import mongoose from "mongoose"
-import { DATE } from "sequelize"
+import mongoose from "mongoose";
 
-const conn = mongoose.createConnection("mongodb://127.0.0.1:27017/shorten_link")
+const conn = mongoose.createConnection(
+    "mongodb://127.0.0.1:27017/shorten_link"
+);
 
 export default {
     Link: conn.model(
@@ -14,9 +15,9 @@ export default {
             expiration: {
                 type: Date,
                 default: function () {
-                    return new Date(Date.now() + 24 * 60 * 60 * 1000)
+                    return new Date(Date.now() + 24 * 60 * 60 * 1000);
                 },
             },
         })
     ),
-}
+};
