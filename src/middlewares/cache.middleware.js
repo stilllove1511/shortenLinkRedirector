@@ -9,7 +9,7 @@ export const checkCacheLink = async (req, res, next) => {
             let expiration = new Date(originalLink.expiration);
             //check expired
             if (now < expiration) {
-                return res.redirect(originalLink.originalLink);
+                res.redirect(originalLink.originalLink);
             } else {
                 res.send("404");
             }

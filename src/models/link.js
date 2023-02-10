@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
             originLink: DataTypes.TEXT,
             shortenLink: DataTypes.TEXT,
             userId: DataTypes.INTEGER,
+            timeVisited: DataTypes.INTEGER,
+            expiration: DataTypes.DATE,
         },
         {
             sequelize,

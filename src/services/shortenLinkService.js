@@ -2,12 +2,15 @@ import mongo from "../mongo/conn";
 
 const findOriginalLink = async (slug) => {
     try {
+        let now = new Date();
         let link = await mongo.Link.findOne({
             alias: slug,
+            expiration: {
+                $gt: now,
+            },
         });
-        let now = new Date();
         //check if link have not been expired
-        if (now < link.expiration) {
+        if (link) {
             return link;
         } else {
             return null;
