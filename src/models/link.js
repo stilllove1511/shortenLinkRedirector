@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             originLink: DataTypes.TEXT,
             shortenLink: DataTypes.TEXT,
             userId: DataTypes.INTEGER,
-            timeVisited: DataTypes.INTEGER,
+            timeVisited: { type: DataTypes.INTEGER, defaultValue: 0 },
             expiration: DataTypes.DATE,
         },
         {
