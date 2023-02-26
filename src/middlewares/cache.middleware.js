@@ -10,6 +10,12 @@ export const checkCacheLink = async (req, res, next) => {
             //check expired
             if (now < expiration) {
                 res.redirect(originalLink.originalLink);
+                console.log(
+                    "http://localhost:8080/link/visit/" + originalLink.SQLDBId
+                );
+                axios.get(
+                    "http://localhost:8080/link/visit/" + originalLink.SQLDBId
+                );
             } else {
                 res.send("404");
             }
@@ -23,11 +29,5 @@ export const checkCacheLink = async (req, res, next) => {
 };
 
 export const cacheLink = (req, res) => {
-    redis.set(
-        req.params.slug,
-        JSON.stringify({
-            originalLink: req.originalLink,
-            expiration: req.expiration.toString(),
-        })
-    );
+    redis.set(req.params.slug, JSON.stringify(originalLink));
 };

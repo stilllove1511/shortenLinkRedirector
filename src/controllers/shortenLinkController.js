@@ -1,3 +1,4 @@
+import axios from 'axios';
 import shortenLinkService from "../services/shortenLinkService";
 
 const redirect = async (req, res, next) => {
@@ -6,9 +7,10 @@ const redirect = async (req, res, next) => {
         let originalLink = await shortenLinkService.findOriginalLink(alias); //find link
         if (originalLink) {
             res.redirect(originalLink.originalLink); //redirect
-            req.originalLink = originalLink.originalLink;
-            req.expiration = originalLink.expiration;
-            next(); //to cache middleware
+            console.log('http://localhost:8080/link/visit/'+originalLink.SQLDBId)
+            axios.get('http://localhost:8080/link/visit/'+originalLink.SQLDBId);
+            req.originalLink = originalLink;
+            // next(); //to cache middleware
         } else {
             return res.send("404 not found"); //if not find link, send 404
         }
