@@ -1,6 +1,6 @@
 import { createClient } from "redis";
 
-const redis = createClient();
+const redis = createClient({ connect_timeout: 5000});
 
 export const connectRedis = async () => {
     try {

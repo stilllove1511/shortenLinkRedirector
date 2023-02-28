@@ -1,9 +1,24 @@
 import redis from "../redis/"
+import axios from 'axios';
+
+async function redisGetKey(key,timeout) {
+    try {
+      return await Promise.race([
+        redis.get(key),
+        new Promise((resolve, reject) => {
+          setTimeout(() => reject('Timeout'), timeout);
+        })
+      ]);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
 export const checkCacheLink = async (req, res, next) => {
     try {
-        let originalLink = await redis.get(req.params.slug) // check if orginal link has been existed on redis
-        if (originalLink !== null) {
+        let originalLink = await redisGetKey(req.params.slug,100) // check if orginal link has been existed on redis
+
+        if (originalLink) {
             originalLink = JSON.parse(originalLink) // parse link data
             let now = new Date()
             let expiration = new Date(originalLink.expiration)
