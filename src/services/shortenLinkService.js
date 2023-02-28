@@ -1,4 +1,4 @@
-import mongo from "../mongo/conn";
+import mongo from "../mongo";
 
 const findOriginalLink = async (slug) => {
     try {
@@ -16,8 +16,7 @@ const findOriginalLink = async (slug) => {
             return null;
         }
     } catch (error) {
-        if (error.message !== `Cannot read property 'expiration' of null`)
-            console.log(error);
+        console.log(error);
         return null;
     }
 };

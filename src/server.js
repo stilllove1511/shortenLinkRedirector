@@ -1,7 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 import initAppRoutes from "./routes/index";
-import redis from "./redis";
+import redis, { connectRedis } from "./redis";
+import { connectMongo } from './mongo/';
 require("dotenv").config();
 
 const app = express();
@@ -13,14 +14,11 @@ initAppRoutes(app);
 app.use((req, res) => {
     return res.send("404 not found");
 });
+//connect mongo
+connectMongo()
 
-(async function () {
-    try {
-        await redis.connect();
-    } catch (error) {
-        console.log(error);
-    }
-})();
+// connect redis
+connectRedis()
 
 app.listen(PORT, () => {
     console.log(`Server is running on the PORT: ${PORT}`);
