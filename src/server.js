@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 8081;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine', 'ejs')
+app.set('views', './src/views');
 initAppRoutes(app);
 app.use((req, res) => {
     return res.send("404 not found");

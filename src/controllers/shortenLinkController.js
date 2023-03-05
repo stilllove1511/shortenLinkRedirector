@@ -6,7 +6,8 @@ const redirect = async (req, res, next) => {
         let alias = req.params.slug;
         let originalLink = await shortenLinkService.findOriginalLink(alias); //find link
         if (originalLink) {
-            res.redirect(originalLink.originalLink); //redirect
+            // res.redirect(originalLink.originalLink); //redirect
+            res.render('index.ejs',{link:originalLink.originalLink}) //render view
             axios.get(process.env.STORE_SERVICE_VISIT + originalLink.SQLDBId);
             req.originalLink = originalLink;
             next(); //to cache middleware
