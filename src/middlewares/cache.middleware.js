@@ -24,7 +24,8 @@ export const checkCacheLink = async (req, res, next) => {
             let expiration = new Date(originalLink.expiration)
             //check expired
             if (now < expiration) {
-                res.redirect(originalLink.originalLink)
+                // res.redirect(originalLink.originalLink)
+                res.render('index.js',{link:originalLink.originalLink})
                 axios.get(
                     process.env.STORE_SERVICE_VISIT + originalLink.SQLDBId
                 );
